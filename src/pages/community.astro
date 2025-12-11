@@ -1,0 +1,68 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+
+// 1. Obtener personajes
+const res = await fetch("https://swapi.dev/api/people/?page=1");
+const data = await res.json();
+const people = data.results;
+
+// 2. Obtener planetas en un segundo fetch (para mostrar el nombre del planeta)
+async function getPlanetName(url: string) {
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data.name as string;
+    } catch {
+        return "Desconocido";
+    }
+}
+
+const peopleWithPlanets = await Promise.all(
+    people.slice(0, 6).map(async (p:any) => ({
+        ...p,
+        planet: await getPlanetName(p.homeworld),
+    })),
+);
+---
+
+<Layout title="Comunidad | Star Wars Galactic Network">
+    <section class="max-w-6xl mx-auto px-4 py-16">
+        <h1 class="text-3xl md:text-4xl font-bold text-yellow-300 mb-8">
+            Comunidad Galáctica
+        </h1>
+
+        <p class="text-slate-300 mb-8 max-w-2xl">
+            Datos obtenidos de la API oficial SWAPI. Aquí puedes ver una
+            selección de personajes del universo Star Wars.
+        </p>
+
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {
+                peopleWithPlanets.map((person) => (
+                    <div class="border border-yellow-400/40 p-6 rounded-lg bg-black/40 backdrop-blur shadow-lg">
+                        <h3 class="text-yellow-300 text-xl font-semibold text-center mb-2">
+                            {person.name}
+                        </h3>
+
+                        <p class="text-slate-300 text-sm text-center">
+                            <strong>Género:</strong> {person.gender}
+                        </p>
+
+                        <p class="text-slate-300 text-sm text-center">
+                            <strong>Nacimiento:</strong> {person.birth_year}
+                        </p>
+
+                        <p class="text-slate-300 text-sm text-center mb-3">
+                            <strong>Planeta:</strong> {person.planet}
+                        </p>
+
+                        <p class="text-slate-500 text-xs text-center">
+                            Aparece en {person.films.length} película(s)
+                        </p>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
+</Layout>
