@@ -1,33 +1,31 @@
 import { useState } from "react";
 
 export default function EventTickets() {
-  const initialTickets = [
+  const [tickets, setTickets] = useState([
     {
       id: 1,
       name: "Entrada VIP",
-      description: "Acceso prioritario, zona exclusiva, foto oficial y pase completo.",
       price: 120,
-      stock: 10,
+      stock: 5,
+      description: "Acceso completo + asiento reservado + regalo exclusivo.",
     },
     {
       id: 2,
-      name: "Entrada General",
-      description: "Acceso estándar al evento durante todo el día.",
+      name: "General Pass",
       price: 60,
-      stock: 25,
+      stock: 20,
+      description: "Acceso estándar a conferencias, zona expo y actividades.",
     },
     {
       id: 3,
       name: "Early Bird",
-      description: "Entrada con descuento para los primeros compradores.",
       price: 40,
-      stock: 8,
+      stock: 10,
+      description: "Precio especial por compra anticipada.",
     },
-  ];
+  ]);
 
-  const [tickets, setTickets] = useState(initialTickets);
-
-  const handleBuy = (id) => {
+  const buyTicket = (id) => {
     setTickets((prev) =>
       prev.map((t) =>
         t.id === id && t.stock > 0
@@ -39,34 +37,36 @@ export default function EventTickets() {
 
   return (
     <div className="grid md:grid-cols-3 gap-6">
-      {tickets.map((t) => (
+      {tickets.map((ticket) => (
         <div
-          key={t.id}
-          className="border border-yellow-400/30 rounded-lg p-5 bg-black/60 shadow-lg shadow-yellow-500/10"
+          key={ticket.id}
+          className="border border-yellow-400/40 rounded-lg p-6 bg-black/40 backdrop-blur"
         >
-          <h3 className="text-xl text-yellow-300 font-semibold">{t.name}</h3>
-          <p className="text-slate-300 text-sm mt-2">{t.description}</p>
+          <h3 className="text-xl font-semibold text-yellow-300">
+            {ticket.name}
+          </h3>
+          <p className="text-slate-400 mt-2 text-sm">{ticket.description}</p>
 
-          <p className="mt-4 text-yellow-400 font-bold text-lg">{t.price}€</p>
+          <p className="text-yellow-200 mt-4 font-bold">
+            {ticket.price} €
+          </p>
 
-          <p className="mt-1 text-sm text-slate-400">
-            Stock:{" "}
-            <span className={t.stock === 0 ? "text-red-400" : "text-green-400"}>
-              {t.stock}
-            </span>
+          <p className="text-xs text-slate-500 mt-1">
+            Stock disponible: {ticket.stock}
           </p>
 
           <button
-            onClick={() => handleBuy(t.id)}
-            disabled={t.stock === 0}
-            className={`mt-5 w-full px-4 py-2 rounded-md text-black font-semibold
+            className={`mt-4 w-full px-4 py-2 rounded-md font-semibold transition
               ${
-                t.stock === 0
-                  ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-yellow-400 hover:bg-yellow-300"
-              }`}
+                ticket.stock > 0
+                  ? "bg-yellow-400 text-black hover:bg-yellow-300"
+                  : "bg-gray-600 text-gray-300 cursor-not-allowed opacity-50"
+              }
+            `}
+            disabled={ticket.stock === 0}
+            onClick={() => buyTicket(ticket.id)}
           >
-            {t.stock === 0 ? "Agotado" : "Comprar"}
+            {ticket.stock > 0 ? "Comprar" : "Agotado"}
           </button>
         </div>
       ))}
