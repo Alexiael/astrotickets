@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+import LocationMap from "../components/islands/LocationMap.jsx";
+---
+
+<Layout title="Ubicación | AstroTickets – Galactic Force Fest">
+  <section class="max-w-6xl mx-auto px-4 py-16 space-y-8">
+
+    <div>
+      <h1 class="text-3xl md:text-4xl font-bold text-yellow-300 mb-4">
+        Ubicación del Evento
+      </h1>
+
+      <p class="text-slate-300 max-w-2xl">
+        El Galactic Force Fest se celebra en un enclave emblemático. Este mapa
+        muestra la ubicación aproximada del evento. Más adelante podrás personalizar
+        coordenadas o añadir múltiples puntos de interés galácticos.
+      </p>
+    </div>
+
+    <!-- ISLA: se hidrata cuando entra en el viewport -->
+    <div class="mt-8">
+      <LocationMap client:only="react" />
+    </div>
+  </section>
+</Layout>
