@@ -1,0 +1,9 @@
+---
+const { class: extra = "" } = Astro.props;
+---
+
+<article
+  class={`rounded-xl border border-yellow-400/20 bg-black/60 shadow-lg shadow-yellow-500/10 p-4 ${extra}`}
+>
+  <slot />
+</article>
