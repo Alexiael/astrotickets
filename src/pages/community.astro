@@ -2,67 +2,121 @@
 import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
 
-// 1. Obtener personajes
-const res = await fetch("https://swapi.dev/api/people/?page=1");
-const data = await res.json();
-const people = data.results;
+// -------------------------------------------------------
+// 1. Descargar *todas* las páginas de SWAPI (personajes)
+// -------------------------------------------------------
+async function fetchAllPeople() {
+  let url: string | null = "https://swapi.dev/api/people/?page=1";
+  const all: any[] = [];
 
-// 2. Obtener planetas en un segundo fetch (para mostrar el nombre del planeta)
-async function getPlanetName(url: string) {
-    try {
-        const res = await fetch(url);
-        const data = await res.json();
-        return data.name as string;
-    } catch {
-        return "Desconocido";
-    }
+  while (url) {
+    const res: any = await fetch(url);
+    const data: any = await res.json();
+
+    all.push(...data.results);
+    url = data.next; // null cuando ya no queden más páginas
+  }
+
+  return all;
 }
 
+// -------------------------------------------------------
+// 2. Obtener el nombre del planeta
+// -------------------------------------------------------
+async function getPlanetName(url: string) {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.name as string;
+  } catch {
+    return "Desconocido";
+  }
+}
+
+// -------------------------------------------------------
+// 3. Imágenes oficiales del Databank (funcionan correctamente)
+// -------------------------------------------------------
+const characterImages: Record<string, string> = {
+  "Luke Skywalker":
+    "https://lumiere-a.akamaihd.net/v1/images/luke-skywalker-main_7ffe21c7.jpeg?region=130%2C147%2C1417%2C796",
+  "Leia Organa":
+    "https://lumiere-a.akamaihd.net/v1/images/leia-organa-main_9af6ff81.jpeg?region=187%2C157%2C1400%2C786",
+  "Darth Vader":
+    "https://lumiere-a.akamaihd.net/v1/images/darth-vader-main_4560aff7.jpeg?region=0%2C67%2C1280%2C720",
+  "C-3PO":
+    "https://lumiere-a.akamaihd.net/v1/images/c-3po-main_d6850e28.jpeg?region=176%2C0%2C951%2C536",
+  "R2-D2":
+    "https://lumiere-a.akamaihd.net/v1/images/r2-d2-main_f315b094.jpeg?region=273%2C0%2C951%2C536",
+  "Owen Lars":
+    "https://lumiere-a.akamaihd.net/v1/images/owen-lars-main_08c717c8.jpeg?region=0%2C34%2C1053%2C593",
+};
+
+// -------------------------------------------------------
+// 4. Obtener todos los personajes de SWAPI
+// -------------------------------------------------------
+const allPeople = await fetchAllPeople();
+
+// Por ahora, solo mostramos 6 como tú decidiste
+const selectedPeople = allPeople.slice(0, 6);
+
+// -------------------------------------------------------
+// 5. Fusionar datos: personaje + planeta + imagen oficial
+// -------------------------------------------------------
 const peopleWithPlanets = await Promise.all(
-    people.slice(0, 6).map(async (p:any) => ({
-        ...p,
-        planet: await getPlanetName(p.homeworld),
-    })),
+  selectedPeople.map(async (p: any, i: number) => ({
+    ...p,
+    planet: await getPlanetName(p.homeworld),
+    image:
+      characterImages[p.name] ??
+      "https://via.placeholder.com/600x400?text=Star+Wars",
+  }))
 );
 ---
 
-<Layout title="Comunidad | Star Wars Galactic Network">
-    <section class="max-w-6xl mx-auto px-4 py-16">
-        <h1 class="text-3xl md:text-4xl font-bold text-yellow-300 mb-8">
-            Comunidad Galáctica
-        </h1>
+<Layout title="Comunidad | AstroTickets – Galactic Force Fest">
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <h1 class="text-3xl md:text-4xl font-bold text-yellow-300 mb-8">
+      Comunidad Galáctica
+    </h1>
 
-        <p class="text-slate-300 mb-8 max-w-2xl">
-            Datos obtenidos de la API oficial SWAPI. Aquí puedes ver una
-            selección de personajes del universo Star Wars.
-        </p>
+    <p class="text-slate-300 mb-8 max-w-2xl">
+      Una muestra de algunos personajes icónicos de la saga Star Wars combinados con datos
+      obtenidos desde la API pública SWAPI y con imágenes oficiales del Databank.
+    </p>
 
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {
-                peopleWithPlanets.map((person) => (
-                    <div class="border border-yellow-400/40 p-6 rounded-lg bg-black/40 backdrop-blur shadow-lg">
-                        <h3 class="text-yellow-300 text-xl font-semibold text-center mb-2">
-                            {person.name}
-                        </h3>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {peopleWithPlanets.map((person) => (
+        <div class="border border-yellow-400/40 p-6 rounded-lg bg-black/40 backdrop-blur shadow-lg">
 
-                        <p class="text-slate-300 text-sm text-center">
-                            <strong>Género:</strong> {person.gender}
-                        </p>
+          <!-- Imagen del personaje -->
+          <img
+            src={person.image}
+            alt={person.name}
+            class="rounded-lg w-full h-48 object-cover object-center mb-4 border border-yellow-400/40"
+          />
 
-                        <p class="text-slate-300 text-sm text-center">
-                            <strong>Nacimiento:</strong> {person.birth_year}
-                        </p>
+          <h3 class="text-yellow-300 text-xl font-semibold text-center mb-2">
+            {person.name}
+          </h3>
 
-                        <p class="text-slate-300 text-sm text-center mb-3">
-                            <strong>Planeta:</strong> {person.planet}
-                        </p>
+          <p class="text-slate-300 text-sm text-center">
+            <strong>Género:</strong> {person.gender}
+          </p>
 
-                        <p class="text-slate-500 text-xs text-center">
-                            Aparece en {person.films.length} película(s)
-                        </p>
-                    </div>
-                ))
-            }
+          <p class="text-slate-300 text-sm text-center">
+            <strong>Nacimiento:</strong> {person.birth_year}
+          </p>
+
+          <p class="text-slate-300 text-sm text-center mb-3">
+            <strong>Planeta:</strong> {person.planet}
+          </p>
+
+          <p class="text-slate-500 text-xs text-center">
+            Aparece en {person.films.length} película(s)
+          </p>
         </div>
-    </section>
+      ))}
+    </div>
+  </section>
 </Layout>
+
