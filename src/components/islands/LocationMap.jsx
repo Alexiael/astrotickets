@@ -36,10 +36,10 @@ export default function LocationMap() {
       .addTo(map)
       .bindPopup(`
         <div style="
-          color: var(--color-text-primary);
+          color: #e5e7eb;
           font-size: 0.85rem;
         ">
-          <strong style="color: var(--color-accent);">
+          <strong style="color: #ef4444;">
             Galactic Force Fest
           </strong>
           <br />
@@ -51,12 +51,14 @@ export default function LocationMap() {
   }, []);
 
   return (
-    <div className="relative w-full h-80 md:h-96 rounded-lg overflow-hidden
-                    border border-(--color-border-accent)">
+    <div
+      className="relative w-full h-80 md:h-96 rounded-lg overflow-hidden border"
+      style={{ borderColor: "var(--color-border-accent)" }}
+    >
       <div
         ref={mapRef}
         className="absolute inset-0 imperial-map-container"
-      ></div>
+      />
     </div>
   );
 }

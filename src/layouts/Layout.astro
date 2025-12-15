@@ -4,7 +4,7 @@ import "../styles/global.css";
 ---
 
 <!doctype html>
-<html lang="es" class="text-slate-100">
+<html lang="es" class="text-(--color-text-primary)">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,61 +12,100 @@ import "../styles/global.css";
   </head>
 
   <body class="min-h-screen flex flex-col relative">
-
     <!-- Fondo estrellado global -->
     <div class="starfield"></div>
 
-    <!-- CONTENIDO -->
-    <header class="sticky top-0 z-9999 border-b border-yellow-400/40 bg-black/80 backdrop-blur">
-
+    <!-- HEADER -->
+    <header
+      class="sticky top-0 z-9999
+             border-b border-(--color-border-accent)
+             bg-black/80 backdrop-blur"
+    >
       <nav
         class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
       >
         <a href="/" class="flex items-center gap-2">
           <span
-            class="h-8 w-8 rounded-full border border-yellow-400 flex items-center justify-center text-xs tracking-[0.2em]"
+            class="h-8 w-8 rounded-full border
+                   border-(--color-border-accent)
+                   flex items-center justify-center
+                   text-xs tracking-[0.2em]
+                   text-(--color-accent)"
           >
             SW
           </span>
+
           <span
-            class="font-semibold tracking-[0.2em] uppercase text-sm text-yellow-400"
+            class="font-semibold tracking-[0.2em] uppercase text-sm
+                   text-(--color-accent)"
           >
             AstroTickets
           </span>
         </a>
 
         <ul class="hidden md:flex gap-6 text-sm tracking-wide">
-          <li><a href="/events" class="hover:text-yellow-300">Entradas</a></li>
-          <li><a href="/merch" class="hover:text-yellow-300">Tienda</a></li>
-          <li><a href="/dashboard" class="hover:text-yellow-300">Dashboard</a></li>
-          <li><a href="/community" class="hover:text-yellow-300">Comunidad</a></li>
-          <li><a href="/location" class="hover:text-yellow-300">Ubicación</a></li>
-          <li><a href="/about" class="hover:text-yellow-300">Sobre nosotros</a></li>
-          <li><a href="/contact" class="hover:text-yellow-300">Contacto</a></li>
+          <li>
+            <a href="/events" class="hover:text-(--color-accent-soft)"
+              >Entradas</a>
+          </li>
+          <li>
+            <a href="/merch" class="hover:text-(--color-accent-soft)">Tienda</a>
+          </li>
+          <li>
+            <a href="/dashboard" class="hover:text-(--color-accent-soft)"
+              >Dashboard</a>
+          </li>
+          <li>
+            <a href="/community" class="hover:text-(--color-accent-soft)"
+              >Comunidad</a>
+          </li>
+          <li>
+            <a href="/location" class="hover:text-(--color-accent-soft)"
+              >Ubicación</a>
+          </li>
+          <li>
+            <a href="/about" class="hover:text-(--color-accent-soft)"
+              >Sobre nosotros</a>
+          </li>
+          <li>
+            <a href="/contact" class="hover:text-(--color-accent-soft)"
+              >Contacto</a>
+          </li>
         </ul>
 
         <button
-          class="md:hidden border border-yellow-400/60 px-3 py-1 rounded text-xs tracking-wide"
+          class="md:hidden border
+                 border-(--color-border-accent)
+                 px-3 py-1 rounded text-xs tracking-wide
+                 text-(--color-accent-soft)"
         >
           Menú
         </button>
       </nav>
     </header>
 
+    <!-- MAIN -->
     <main class="relative z-10 flex-1">
       <slot />
     </main>
 
-    <footer class="relative z-10 border-t border-yellow-400/40 mt-8 bg-black/80">
+    <!-- FOOTER -->
+    <footer
+      class="relative z-10 mt-8
+             border-t border-(--color-border-accent)
+             bg-black/80"
+    >
       <div
-        class="max-w-6xl mx-auto px-4 py-6 text-xs text-slate-400 flex flex-col md:flex-row gap-2 md:items-center md:justify-between"
+        class="max-w-6xl mx-auto px-4 py-6 text-xs
+               text-(--color-text-muted)
+               flex flex-col md:flex-row gap-2
+               md:items-center md:justify-between"
       >
         <p>© {new Date().getFullYear()} AstroTickets – Galactic Force Fest.</p>
-        <p class="text-slate-500">
+        <p class="text-(--color-text-muted)">
           “La creatividad es la inteligencia divirtiéndose” – versión galáctica.
         </p>
       </div>
     </footer>
-
   </body>
 </html>

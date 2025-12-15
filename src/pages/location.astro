@@ -8,11 +8,14 @@ import LocationMap from "../components/islands/LocationMap.jsx";
   <section class="max-w-6xl mx-auto px-4 py-16 space-y-8">
 
     <div>
-      <h1 class="text-3xl md:text-4xl font-bold text-yellow-300 mb-4">
+      <h1
+        class="text-3xl md:text-4xl font-bold mb-4
+               text-(--color-accent)"
+      >
         Ubicación del Evento
       </h1>
 
-      <p class="text-slate-300 max-w-2xl">
+      <p class="max-w-2xl text-(--color-text-primary)">
         El Galactic Force Fest se celebra en un enclave emblemático. Este mapa
         muestra la ubicación aproximada del evento. Más adelante podrás personalizar
         coordenadas o añadir múltiples puntos de interés galácticos.
@@ -23,5 +26,6 @@ import LocationMap from "../components/islands/LocationMap.jsx";
     <div class="mt-8">
       <LocationMap client:only="react" />
     </div>
+
   </section>
 </Layout>
