@@ -1,1 +1,122 @@
 @import "tailwindcss";
+
+.imperial-marker {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Imagen del icono */
+.imperial-marker img {
+    width: 46px;
+    height: 46px;
+    filter: drop-shadow(0 0 8px #ff0000cc);
+    z-index: 2;
+}
+
+/* Halo pulsante perfecto */
+.imperial-marker::before {
+    content: "";
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 0, 0, 0.45);
+    animation: imperialPulse 1.6s infinite ease-out;
+    z-index: 1;
+}
+
+@keyframes imperialPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    60% {
+        transform: scale(2.4);
+        opacity: 0.25;
+    }
+
+    100% {
+        transform: scale(3.2);
+        opacity: 0;
+    }
+}
+
+
+.imperial-map-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    /* Aparece bien fuera del mapa */
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(to right,
+            rgba(255, 50, 50, 0) 0%,
+            rgba(255, 50, 50, 0.15) 40%,
+            rgba(255, 0, 0, 0.35) 50%,
+            rgba(255, 50, 50, 0.15) 60%,
+            rgba(255, 50, 50, 0) 100%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 9999;
+    animation: imperialSweep 5s infinite linear;
+}
+
+@keyframes imperialSweep {
+    0% {
+        transform: translateX(-120%);
+        opacity: 0.5;
+    }
+
+    85% {
+        transform: translateX(320%);
+        opacity: 0.5;
+        /* constante, sin desaparecer */
+    }
+
+    100% {
+        transform: translateX(400%);
+        opacity: 0;
+        /* ya salió completamente */
+    }
+}
+
+/* ============================= */
+/* FONDO ESTRELLADO GLOBAL */
+/* ============================= */
+
+.starfield {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+        radial-gradient(1px 1px at 80% 40%, #fff, transparent),
+        radial-gradient(1px 1px at 60% 80%, #fff, transparent),
+        radial-gradient(1px 1px at 40% 60%, #fff, transparent),
+        radial-gradient(1px 1px at 70% 20%, #fff, transparent),
+        radial-gradient(2px 2px at 10% 90%, #fff, transparent),
+        radial-gradient(1px 1px at 90% 10%, #fff, transparent),
+        radial-gradient(1px 1px at 30% 70%, #fff, transparent),
+        #000;
+    background-repeat: repeat;
+    background-size: 300px 300px;
+}
+
+/* Capa de profundidad extra */
+.starfield::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(1px 1px at 25% 50%, #aaa, transparent),
+        radial-gradient(1px 1px at 75% 60%, #aaa, transparent),
+        radial-gradient(1px 1px at 50% 25%, #aaa, transparent);
+    background-size: 500px 500px;
+    opacity: 0.6;
+}

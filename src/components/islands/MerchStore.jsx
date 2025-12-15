@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { gsap } from "gsap";
 
 export default function MerchStore() {
-    // Estado: productos y carrito
-    const [products] = useState([
+    // -----------------------------
+    // 1. PRODUCTOS CON STOCK
+    // -----------------------------
+    const initialProducts = [
         {
             id: 1,
             name: "Camiseta Galactic Force",
             price: 25,
+            stock: 5,
             image:
                 "https://www.merchoid.com/media/catalog/product/cache/bfcb5e98c93238c53d4013e78676b669/1/1/1129334_swc02591tsb_star_wars_glow_in_the_dark_lightsaber_t-shirt.jpg",
         },
@@ -15,84 +18,144 @@ export default function MerchStore() {
             id: 2,
             name: "Póster Edición Especial",
             price: 15,
+            stock: 3,
             image: "https://static.posters.cz/image/1300/83520.jpg",
         },
         {
             id: 3,
             name: "Taza del Lado Oscuro",
             price: 12,
+            stock: 4,
             image:
                 "https://www.koekoe.es/7174-tm_thickbox_default/taza-3d-stormtrooper-star-wars.jpg",
         },
-    ]);
+    ];
 
+    const [products, setProducts] = useState(initialProducts);
     const [cart, setCart] = useState([]);
 
-    // 1. Cargar carrito desde localStorage al iniciar
+    // -----------------------------
+    // 2. CARGAR carrito + stock desde localStorage
+    // -----------------------------
     useEffect(() => {
-        const saved = localStorage.getItem("merch-cart");
-        if (saved) {
-            setCart(JSON.parse(saved));
-        }
+        const savedCart = localStorage.getItem("merch-cart");
+        const savedProducts = localStorage.getItem("merch-products");
+
+        if (savedCart) setCart(JSON.parse(savedCart));
+        if (savedProducts) setProducts(JSON.parse(savedProducts));
     }, []);
 
-    // 2. Guardar carrito en localStorage cuando cambie
+    // -----------------------------
+    // 3. GUARDAR carrito + stock en localStorage
+    // -----------------------------
     useEffect(() => {
         localStorage.setItem("merch-cart", JSON.stringify(cart));
+        localStorage.setItem("merch-products", JSON.stringify(products));
 
-        // Animar total cuando cambie el carrito
-        gsap.fromTo(
-            "#cart-total",
-            { scale: 1.2 },
-            { scale: 1, duration: 0.2, ease: "power1.out" }
-        );
-    }, [cart]);
+        gsap.fromTo("#cart-total", { scale: 1.2 }, { scale: 1, duration: 0.2 });
+    }, [cart, products]);
 
-    // 3. Añadir al carrito
+    // -----------------------------
+    // 4. AÑADIR AL CARRITO (reduce stock)
+    // -----------------------------
     const addToCart = (product) => {
+        if (product.stock <= 0) return;
+
+        // Reducir stock
+        setProducts((prev) =>
+            prev.map((p) =>
+                p.id === product.id ? { ...p, stock: p.stock - 1 } : p
+            )
+        );
+
+        // Añadir al carrito
         setCart((prev) => {
-            const existing = prev.find((p) => p.id === product.id);
+            const existing = prev.find((item) => item.id === product.id);
             if (existing) {
-                return prev.map((p) =>
-                    p.id === product.id ? { ...p, qty: p.qty + 1 } : p
+                return prev.map((item) =>
+                    item.id === product.id
+                        ? { ...item, qty: item.qty + 1 }
+                        : item
                 );
             }
             return [...prev, { ...product, qty: 1 }];
         });
     };
 
-    // 4. Modificar cantidad (+ / –)
+    // -----------------------------
+    // 5. ACTUALIZAR CANTIDAD desde carrito (gestionando stock)
+    // -----------------------------
     const updateQty = (id, delta) => {
+        const item = cart.find((i) => i.id === id);
+        if (!item) return;
+
+        // Si queremos aumentar pero NO hay stock → no permitir
+        if (delta === +1) {
+            const productStock = products.find((p) => p.id === id)?.stock;
+            if (productStock <= 0) return; // No stock → no subir
+        }
+
+        // Actualizar carrito
         setCart((prev) =>
             prev
                 .map((item) =>
                     item.id === id
-                        ? { ...item, qty: Math.max(1, item.qty + delta) }
+                        ? { ...item, qty: item.qty + delta }
                         : item
                 )
                 .filter((item) => item.qty > 0)
         );
+
+        // Ajustar stock del producto
+        setProducts((prev) =>
+            prev.map((p) =>
+                p.id === id
+                    ? { ...p, stock: p.stock - delta }
+                    : p
+            )
+        );
     };
 
-    // 5. Eliminar producto
+    // -----------------------------
+    // 6. ELIMINAR ITEM (devuelve stock completo)
+    // -----------------------------
     const removeItem = (id) => {
+        const removed = cart.find((item) => item.id === id);
+        if (!removed) return;
+
+        // Devolver stock del producto
+        setProducts((prev) =>
+            prev.map((p) =>
+                p.id === id ? { ...p, stock: p.stock + removed.qty } : p
+            )
+        );
+
+        // Eliminar del carrito
         setCart((prev) => prev.filter((item) => item.id !== id));
     };
 
-    // 6. Calcular total
-    const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+    // -----------------------------
+    // 7. TOTAL
+    // -----------------------------
+    const total = cart.reduce(
+        (acc, item) => acc + item.price * item.qty,
+        0
+    );
 
+    // -----------------------------
+    // 8. RENDER
+    // -----------------------------
     return (
         <div className="grid md:grid-cols-3 gap-6">
 
-            {/* LISTA DE PRODUCTOS */}
+            {/* PRODUCTOS */}
             <div className="md:col-span-2 grid sm:grid-cols-2 gap-6">
                 {products.map((product) => (
                     <div
                         key={product.id}
                         className="product-card border border-yellow-400/40 rounded-lg p-4 bg-black/40"
                     >
-                        <div className="w-full h-40 md:h-48 flex items-center justify-center overflow-hidden rounded mb-3 bg-black/20">
+                        <div className="w-full h-40 md:h-48 overflow-hidden rounded mb-3 bg-black/20">
                             <img
                                 src={product.image}
                                 alt={product.name}
@@ -103,13 +166,25 @@ export default function MerchStore() {
                         <h3 className="text-yellow-300 text-lg font-semibold">
                             {product.name}
                         </h3>
-                        <p className="text-slate-300 mt-1 text-sm">{product.price} €</p>
+
+                        <p className="text-slate-300 mt-1 text-sm">
+                            {product.price} €
+                        </p>
+
+                        <p className="text-slate-400 text-xs">
+                            Stock: {product.stock}
+                        </p>
 
                         <button
                             onClick={() => addToCart(product)}
-                            className="mt-4 w-full bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300 font-semibold"
+                            disabled={product.stock <= 0}
+                            className={`mt-4 w-full px-4 py-2 rounded font-semibold ${
+                                product.stock > 0
+                                    ? "bg-yellow-400 text-black hover:bg-yellow-300"
+                                    : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                            }`}
                         >
-                            Añadir al carrito
+                            {product.stock > 0 ? "Añadir al carrito" : "Agotado"}
                         </button>
                     </div>
                 ))}
@@ -117,14 +192,19 @@ export default function MerchStore() {
 
             {/* CARRITO */}
             <div className="border border-yellow-400/40 rounded-lg p-4 bg-black/40 h-fit sticky top-20">
-                <h2 className="text-xl font-semibold text-yellow-300 mb-4">Carrito</h2>
+                <h2 className="text-xl font-semibold text-yellow-300 mb-4">
+                    Carrito
+                </h2>
 
                 {cart.length === 0 ? (
                     <p className="text-slate-400">Tu carrito está vacío.</p>
                 ) : (
                     <ul className="space-y-4">
                         {cart.map((item) => (
-                            <li key={item.id} className="flex justify-between items-center text-sm text-slate-200">
+                            <li
+                                key={item.id}
+                                className="flex justify-between items-center text-sm text-slate-200"
+                            >
                                 <div>
                                     <p className="font-semibold">{item.name}</p>
 
@@ -151,10 +231,8 @@ export default function MerchStore() {
                                 </div>
 
                                 <div className="text-right">
-                                    {/* Precio */}
                                     <p>{item.price * item.qty} €</p>
 
-                                    {/* Botón eliminar */}
                                     <button
                                         onClick={() => removeItem(item.id)}
                                         className="text-red-400 hover:text-red-300 text-xs mt-1"
@@ -178,3 +256,4 @@ export default function MerchStore() {
         </div>
     );
 }
+

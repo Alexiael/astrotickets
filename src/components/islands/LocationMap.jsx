@@ -2,48 +2,44 @@ import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Fijamos coordenadas (ejemplo: Zaragoza)
 const EVENT_LAT = 41.6563;
 const EVENT_LNG = -0.8766;
 
 export default function LocationMap() {
-  const mapRef = useRef(null);
+    const mapRef = useRef(null);
 
-  useEffect(() => {
-    if (!mapRef.current) return;
+    useEffect(() => {
+        if (!mapRef.current) return;
 
-    // Crear mapa
-    const map = L.map(mapRef.current).setView([EVENT_LAT, EVENT_LNG], 14);
+        const map = L.map(mapRef.current).setView([EVENT_LAT, EVENT_LNG], 14);
 
-    // Capa base (OpenStreetMap)
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
-    }).addTo(map);
+        L.tileLayer(
+            "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+            { maxZoom: 19 }
+        ).addTo(map);
 
-    // Icono personalizado
-    const markerIcon = L.icon({
-      iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-      iconRetinaUrl:
-        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-      shadowUrl:
-        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-    });
+        const imperialIcon = L.divIcon({
+            html: `
+    <div class="imperial-marker">
+      <img src="https://lumiere-a.akamaihd.net/v1/images/era5_67cf4464.png?region=0,0,1000,1000&width=320" />
+    </div>
+  `,
+            className: "",
+            iconSize: [46, 46],
+            iconAnchor: [23, 46],
+        });
 
-    // Marcador del evento
-    L.marker([EVENT_LAT, EVENT_LNG], { icon: markerIcon })
-      .addTo(map)
-      .bindPopup("<b>Galactic Force Fest</b><br>Ubicación del evento.");
 
-    return () => map.remove();
-  }, []);
+        L.marker([EVENT_LAT, EVENT_LNG], { icon: imperialIcon })
+            .addTo(map)
+            .bindPopup("<b style='color:#ff5555;'>Galactic Force Fest</b>");
 
-  return (
-    <div
-      ref={mapRef}
-      className="w-full h-80 md:h-96 rounded-lg border border-yellow-400/40 overflow-hidden"
-    />
-  );
+        return () => map.remove();
+    }, []);
+
+    return (
+        <div className="relative w-full h-80 md:h-96 rounded-lg overflow-hidden">
+            <div ref={mapRef} className="absolute inset-0 imperial-map-container"></div>
+        </div>
+    );
 }
