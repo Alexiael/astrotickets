@@ -40,18 +40,22 @@ export default function EventTickets() {
       {tickets.map((ticket) => (
         <div
           key={ticket.id}
-          className="border border-yellow-400/40 rounded-lg p-6 bg-black/40 backdrop-blur"
+          className="border border-(--color-border-accent)
+                     rounded-lg p-6 bg-black/50 backdrop-blur"
         >
-          <h3 className="text-xl font-semibold text-yellow-300">
+          <h3 className="text-xl font-semibold text-(--color-accent)">
             {ticket.name}
           </h3>
-          <p className="text-slate-400 mt-2 text-sm">{ticket.description}</p>
 
-          <p className="text-yellow-200 mt-4 font-bold">
+          <p className="text-(--color-text-muted) mt-2 text-sm">
+            {ticket.description}
+          </p>
+
+          <p className="text-(--color-accent-soft) mt-4 font-bold">
             {ticket.price} €
           </p>
 
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-(--color-text-muted) mt-1">
             Stock disponible: {ticket.stock}
           </p>
 
@@ -59,8 +63,8 @@ export default function EventTickets() {
             className={`mt-4 w-full px-4 py-2 rounded-md font-semibold transition
               ${
                 ticket.stock > 0
-                  ? "bg-yellow-400 text-black hover:bg-yellow-300"
-                  : "bg-gray-600 text-gray-300 cursor-not-allowed opacity-50"
+                  ? "bg-(--color-accent) text-white hover:bg-(--color-accent-soft)"
+                  : "bg-gray-700 text-gray-400 cursor-not-allowed opacity-50"
               }
             `}
             disabled={ticket.stock === 0}

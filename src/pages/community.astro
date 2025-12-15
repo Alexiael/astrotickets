@@ -14,7 +14,7 @@ async function fetchAllPeople() {
     const data: any = await res.json();
 
     all.push(...data.results);
-    url = data.next; // null cuando ya no queden más páginas
+    url = data.next;
   }
 
   return all;
@@ -34,7 +34,7 @@ async function getPlanetName(url: string) {
 }
 
 // -------------------------------------------------------
-// 3. Imágenes oficiales del Databank (funcionan correctamente)
+// 3. Imágenes oficiales del Databank
 // -------------------------------------------------------
 const characterImages: Record<string, string> = {
   "Luke Skywalker":
@@ -52,18 +52,12 @@ const characterImages: Record<string, string> = {
 };
 
 // -------------------------------------------------------
-// 4. Obtener todos los personajes de SWAPI
-// -------------------------------------------------------
 const allPeople = await fetchAllPeople();
-
-// Por ahora, solo mostramos 6 como tú decidiste
 const selectedPeople = allPeople.slice(0, 6);
 
 // -------------------------------------------------------
-// 5. Fusionar datos: personaje + planeta + imagen oficial
-// -------------------------------------------------------
 const peopleWithPlanets = await Promise.all(
-  selectedPeople.map(async (p: any, i: number) => ({
+  selectedPeople.map(async (p: any) => ({
     ...p,
     planet: await getPlanetName(p.homeworld),
     image:
@@ -75,43 +69,48 @@ const peopleWithPlanets = await Promise.all(
 
 <Layout title="Comunidad | AstroTickets – Galactic Force Fest">
   <section class="max-w-6xl mx-auto px-4 py-16">
-    <h1 class="text-3xl md:text-4xl font-bold text-yellow-300 mb-8">
+
+    <h1 class="text-3xl md:text-4xl font-bold text-[color:var(--color-accent-soft)] mb-6">
       Comunidad Galáctica
     </h1>
 
-    <p class="text-slate-300 mb-8 max-w-2xl">
+    <p class="text-[color:var(--color-text-muted)] mb-10 max-w-2xl">
       Una muestra de algunos personajes icónicos de la saga Star Wars combinados con datos
       obtenidos desde la API pública SWAPI y con imágenes oficiales del Databank.
     </p>
 
     <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
       {peopleWithPlanets.map((person) => (
-        <div class="border border-yellow-400/40 p-6 rounded-lg bg-black/40 backdrop-blur shadow-lg">
+        <div
+          class="border border-[color:var(--color-border-accent)] p-6 rounded-lg
+                 bg-black/50 backdrop-blur shadow-lg"
+        >
 
           <!-- Imagen del personaje -->
           <img
             src={person.image}
             alt={person.name}
-            class="rounded-lg w-full h-48 object-cover object-center mb-4 border border-yellow-400/40"
+            class="rounded-md w-full h-48 object-cover object-center mb-4
+                   border border-[color:var(--color-border-accent)]"
           />
 
-          <h3 class="text-yellow-300 text-xl font-semibold text-center mb-2">
+          <h3 class="text-[color:var(--color-accent)] text-xl font-semibold text-center mb-2">
             {person.name}
           </h3>
 
-          <p class="text-slate-300 text-sm text-center">
-            <strong>Género:</strong> {person.gender}
+          <p class="text-sm text-center text-[color:var(--color-text-primary)]">
+            <span class="text-[color:var(--color-text-muted)]">Género:</span> {person.gender}
           </p>
 
-          <p class="text-slate-300 text-sm text-center">
-            <strong>Nacimiento:</strong> {person.birth_year}
+          <p class="text-sm text-center text-[color:var(--color-text-primary)]">
+            <span class="text-[color:var(--color-text-muted)]">Nacimiento:</span> {person.birth_year}
           </p>
 
-          <p class="text-slate-300 text-sm text-center mb-3">
-            <strong>Planeta:</strong> {person.planet}
+          <p class="text-sm text-center text-[color:var(--color-text-primary)] mb-3">
+            <span class="text-[color:var(--color-text-muted)]">Planeta:</span> {person.planet}
           </p>
 
-          <p class="text-slate-500 text-xs text-center">
+          <p class="text-xs text-center text-[color:var(--color-text-muted)]">
             Aparece en {person.films.length} película(s)
           </p>
         </div>
@@ -119,4 +118,3 @@ const peopleWithPlanets = await Promise.all(
     </div>
   </section>
 </Layout>
-
