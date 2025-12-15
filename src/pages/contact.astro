@@ -1,0 +1,181 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+---
+
+<Layout title="Contacto | AstroTickets – Galactic Force Fest">
+  <section class="max-w-4xl mx-auto px-4 py-16">
+    <h1 class="text-3xl md:text-4xl font-bold mb-6 text-(--color-accent)">
+      Contacto
+    </h1>
+
+    <p class="mb-10 max-w-2xl text-(--color-text-primary)">
+      ¿Tienes alguna duda, propuesta o necesitas contactar con el Alto Mando Imperial?
+      Rellena el formulario y nos pondremos en contacto contigo lo antes posible.
+    </p>
+
+    <form
+      id="contact-form"
+      novalidate
+      class="space-y-6 border border-(--color-border-accent) rounded-lg p-6 bg-black/60"
+    >
+      <!-- Nombre -->
+      <div>
+        <label
+          for="name"
+          class="block text-xs uppercase tracking-[0.2em] mb-2 text-(--color-accent-soft)"
+        >
+          Nombre
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          class="w-full px-4 py-2 rounded bg-black/40 border border-(--color-border-accent)
+                 text-(--color-text-primary)
+                 focus:outline-none focus:ring-2 focus:ring-(--color-accent)"
+        />
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label
+          for="email"
+          class="block text-xs uppercase tracking-[0.2em] mb-2 text-(--color-accent-soft)"
+        >
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          inputmode="email"
+          class="w-full px-4 py-2 rounded bg-black/40 border border-(--color-border-accent)
+                 text-(--color-text-primary)
+                 focus:outline-none focus:ring-2 focus:ring-(--color-accent)"
+        />
+      </div>
+
+      <!-- Asunto -->
+      <div>
+        <label
+          for="subject"
+          class="block text-xs uppercase tracking-[0.2em] mb-2 text-(--color-accent-soft)"
+        >
+          Asunto
+        </label>
+        <input
+          id="subject"
+          name="subject"
+          type="text"
+          autocomplete="off"
+          class="w-full px-4 py-2 rounded bg-black/40 border border-(--color-border-accent)
+                 text-(--color-text-primary)
+                 focus:outline-none focus:ring-2 focus:ring-(--color-accent)"
+        />
+      </div>
+
+      <!-- Mensaje -->
+      <div>
+        <label
+          for="message"
+          class="block text-xs uppercase tracking-[0.2em] mb-2 text-(--color-accent-soft)"
+        >
+          Mensaje
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          class="w-full px-4 py-2 rounded bg-black/40 border border-(--color-border-accent)
+                 text-(--color-text-primary)
+                 focus:outline-none focus:ring-2 focus:ring-(--color-accent)"
+        ></textarea>
+      </div>
+
+      <!-- FEEDBACK -->
+      <p
+        id="form-feedback"
+        class="hidden text-sm"
+        aria-live="polite"
+      ></p>
+
+      <!-- BOTÓN -->
+      <button
+        id="contact-submit"
+        type="submit"
+        class="px-6 py-2 rounded font-semibold bg-(--color-accent) text-black
+               hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Enviar mensaje
+      </button>
+    </form>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const form = document.getElementById("contact-form");
+      const feedback = document.getElementById("form-feedback");
+      const submitBtn = document.getElementById("contact-submit");
+
+      if (!form || !feedback || !submitBtn) {
+        console.error("[contact] Missing required elements.");
+        return;
+      }
+
+      const showFeedback = (text, colorVar) => {
+        feedback.textContent = text;
+        feedback.classList.remove("hidden");
+        feedback.style.color = `var(${colorVar})`;
+      };
+
+      const hideFeedback = () => {
+        feedback.textContent = "";
+        feedback.classList.add("hidden");
+        feedback.style.color = "";
+      };
+
+      const getTrimmed = (fd, key) => {
+        const v = fd.get(key);
+        return typeof v === "string" ? v.trim() : "";
+      };
+
+      const isValidEmail = (email) => {
+        // Simple y suficiente para esta práctica (mejor que "includes('@')")
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      };
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        hideFeedback();
+
+        const fd = new FormData(form);
+
+        const name = getTrimmed(fd, "name");
+        const email = getTrimmed(fd, "email");
+        const subject = getTrimmed(fd, "subject");
+        const message = getTrimmed(fd, "message");
+
+        if (!name || !email || !subject || !message) {
+          showFeedback("Todos los campos son obligatorios.", "--color-accent");
+          return;
+        }
+
+        if (!isValidEmail(email)) {
+          showFeedback("El email no es válido.", "--color-accent");
+          return;
+        }
+
+        // Éxito (simulado)
+        showFeedback(
+          "Mensaje enviado correctamente. El Imperio se pondrá en contacto contigo.",
+          "--color-accent-soft"
+        );
+
+        form.reset();
+      });
+    })();
+  </script>
+</Layout>
