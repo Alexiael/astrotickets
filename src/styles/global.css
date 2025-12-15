@@ -5,21 +5,26 @@
 /* ============================= */
 
 :root {
-  /* Colores base */
-  --color-bg-primary: #000000;
-  --color-bg-secondary: #050505;
+    /* Colores base */
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #050505;
 
-  /* Color principal imperial */
-  --color-accent: #dc2626;        /* rojo imperial */
-  --color-accent-soft: #f87171;   /* rojo suave */
-  --color-accent-muted: #7f1d1d;  /* rojo oscuro */
+    /* Color principal imperial */
+    --color-accent: #dc2626;
+    /* rojo imperial */
+    --color-accent-soft: #f87171;
+    /* rojo suave */
+    --color-accent-muted: #7f1d1d;
+    /* rojo oscuro */
 
-  /* Texto */
-  --color-text-primary: #e5e7eb;  /* slate-200 */
-  --color-text-muted: #9ca3af;    /* slate-400 */
+    /* Texto */
+    --color-text-primary: #e5e7eb;
+    /* slate-200 */
+    --color-text-muted: #9ca3af;
+    /* slate-400 */
 
-  /* Bordes */
-  --color-border-accent: rgba(220, 38, 38, 0.45);
+    /* Bordes */
+    --color-border-accent: rgba(220, 38, 38, 0.45);
 }
 
 
@@ -142,4 +147,31 @@
         radial-gradient(1px 1px at 50% 25%, #aaa, transparent);
     background-size: 500px 500px;
     opacity: 0.6;
+}
+
+/* =========================
+   THEMES
+   ========================= */
+
+:root {
+    --color-accent: #dc2626;
+    --color-accent-soft: #f87171;
+    --color-border-accent: rgba(220, 38, 38, 0.5);
+
+    --color-text-primary: #e5e7eb;
+    --color-text-muted: #9ca3af;
+
+    --color-bg: #000000;
+}
+
+/* REBELIÓN (CLARO) */
+html[data-theme="rebelion"] {
+    --color-accent: #facc15;
+    --color-accent-soft: #fde047;
+    --color-border-accent: rgba(250, 204, 21, 0.5);
+
+    --color-text-primary: #f8fafc;
+    --color-text-muted: #cbd5f5;
+
+    --color-bg: #020617;
 }
