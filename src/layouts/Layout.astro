@@ -3,21 +3,34 @@ const { title = "AstroTickets – Galactic Force Fest" } = Astro.props;
 import "../styles/global.css";
 ---
 
-<!DOCTYPE html>
-<html lang="es" class="bg-black text-slate-100">
+<!doctype html>
+<html lang="es" class="text-slate-100">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen flex flex-col bg-linear-to-b from-black via-slate-950 to-black">
-    <header class="border-b border-yellow-400/40 bg-black/70 backdrop-blur sticky top-0 z-50">
-      <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+
+  <body class="min-h-screen flex flex-col relative">
+
+    <!-- Fondo estrellado global -->
+    <div class="starfield"></div>
+
+    <!-- CONTENIDO -->
+    <header class="sticky top-0 z-[9999] border-b border-yellow-400/40 bg-black/80 backdrop-blur">
+
+      <nav
+        class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
+      >
         <a href="/" class="flex items-center gap-2">
-          <span class="h-8 w-8 rounded-full border border-yellow-400 flex items-center justify-center text-xs tracking-[0.2em]">
+          <span
+            class="h-8 w-8 rounded-full border border-yellow-400 flex items-center justify-center text-xs tracking-[0.2em]"
+          >
             SW
           </span>
-          <span class="font-semibold tracking-[0.2em] uppercase text-sm text-yellow-400">
+          <span
+            class="font-semibold tracking-[0.2em] uppercase text-sm text-yellow-400"
+          >
             AstroTickets
           </span>
         </a>
@@ -32,24 +45,28 @@ import "../styles/global.css";
           <li><a href="/contact" class="hover:text-yellow-300">Contacto</a></li>
         </ul>
 
-        <!-- Menú móvil súper sencillo de momento -->
-        <button class="md:hidden border border-yellow-400/60 px-3 py-1 rounded text-xs tracking-wide">
+        <button
+          class="md:hidden border border-yellow-400/60 px-3 py-1 rounded text-xs tracking-wide"
+        >
           Menú
         </button>
       </nav>
     </header>
 
-    <main class="flex-1">
+    <main class="relative z-10 flex-1">
       <slot />
     </main>
 
-    <footer class="border-t border-yellow-400/40 mt-8 bg-black/80">
-      <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-slate-400 flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
+    <footer class="relative z-10 border-t border-yellow-400/40 mt-8 bg-black/80">
+      <div
+        class="max-w-6xl mx-auto px-4 py-6 text-xs text-slate-400 flex flex-col md:flex-row gap-2 md:items-center md:justify-between"
+      >
         <p>© {new Date().getFullYear()} AstroTickets – Galactic Force Fest.</p>
         <p class="text-slate-500">
           “La creatividad es la inteligencia divirtiéndose” – versión galáctica.
         </p>
       </div>
     </footer>
+
   </body>
 </html>

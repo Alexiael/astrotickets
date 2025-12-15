@@ -1,5 +1,28 @@
 @import "tailwindcss";
 
+/* ============================= */
+/* TEMA IMPERIAL (POR DEFECTO) */
+/* ============================= */
+
+:root {
+  /* Colores base */
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #050505;
+
+  /* Color principal imperial */
+  --color-accent: #dc2626;        /* rojo imperial */
+  --color-accent-soft: #f87171;   /* rojo suave */
+  --color-accent-muted: #7f1d1d;  /* rojo oscuro */
+
+  /* Texto */
+  --color-text-primary: #e5e7eb;  /* slate-200 */
+  --color-text-muted: #9ca3af;    /* slate-400 */
+
+  /* Bordes */
+  --color-border-accent: rgba(220, 38, 38, 0.45);
+}
+
+
 .imperial-marker {
     position: relative;
     width: 46px;
