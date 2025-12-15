@@ -10,33 +10,50 @@ import "../styles/global.css";
   <HeroAnimated client:load />
 
   <section class="max-w-6xl mx-auto px-4 pb-16 md:pb-24">
-    <h2 class="text-xl md:text-2xl font-semibold mb-6 text-yellow-300">
+    <h2
+      class="text-xl md:text-2xl font-semibold mb-6
+             text-(--color-accent-soft)"
+    >
       Experiencias destacadas
     </h2>
 
     <div class="grid md:grid-cols-3 gap-6">
       <Card>
-        <h3 class="font-semibold text-yellow-200 mb-2">Conferencias Jedi</h3>
-        <p class="text-sm text-slate-300">
+        <h3
+          class="font-semibold mb-2
+                 text-(--color-accent)"
+        >
+          Conferencias Jedi
+        </h3>
+        <p class="text-sm text-(--color-text-primary)">
           Aprende de maestros del desarrollo web que dominan la fuerza de Astro, React y GSAP.
         </p>
       </Card>
 
       <Card>
-        <h3 class="font-semibold text-yellow-200 mb-2">Zona Merch Imperial</h3>
-        <p class="text-sm text-slate-300">
+        <h3
+          class="font-semibold mb-2
+                 text-(--color-accent)"
+        >
+          Zona Merch Imperial
+        </h3>
+        <p class="text-sm text-(--color-text-primary)">
           Camisetas, pósters, figuras y mucho más. Personaliza tu experiencia galáctica.
         </p>
       </Card>
 
       <Card>
-        <h3 class="font-semibold text-yellow-200 mb-2">Batallas de código</h3>
-        <p class="text-sm text-slate-300">
+        <h3
+          class="font-semibold mb-2
+                 text-(--color-accent)"
+        >
+          Batallas de código
+        </h3>
+        <p class="text-sm text-(--color-text-primary)">
           Retos en vivo, mini-hackatones y duelos de front-end para poner a prueba tu lado
           más creativo.
         </p>
       </Card>
     </div>
   </section>
-
 </Layout>
