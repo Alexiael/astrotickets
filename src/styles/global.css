@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 
 /* ============================= */
@@ -5,113 +6,130 @@
 /* ============================= */
 
 :root {
-    /* Colores base */
-    --color-bg-primary: #000000;
-    --color-bg-secondary: #050505;
+  /* Colores base */
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #050505;
 
-    /* Color principal imperial */
-    --color-accent: #dc2626;
-    /* rojo imperial */
-    --color-accent-soft: #f87171;
-    /* rojo suave */
-    --color-accent-muted: #7f1d1d;
-    /* rojo oscuro */
+  /* Color principal imperial */
+  --color-accent: #dc2626;
+  /* rojo imperial */
+  --color-accent-soft: #f87171;
+  /* rojo suave */
+  --color-accent-muted: #7f1d1d;
+  /* rojo oscuro */
 
-    /* Texto */
-    --color-text-primary: #e5e7eb;
-    /* slate-200 */
-    --color-text-muted: #9ca3af;
-    /* slate-400 */
+  /* Texto */
+  --color-text-primary: #e5e7eb;
+  /* slate-200 */
+  --color-text-muted: #9ca3af;
+  /* slate-400 */
 
-    /* Bordes */
-    --color-border-accent: rgba(220, 38, 38, 0.45);
+  /* Bordes */
+  --color-border-accent: rgba(220, 38, 38, 0.45);
+
+  --font-heading: "Orbitron", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+nav,
+.faction-label,
+header {
+  font-family: var(--font-heading);
+  letter-spacing: 0.08em;
 }
 
 
 .imperial-marker {
-    position: relative;
-    width: 46px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Imagen del icono */
 .imperial-marker img {
-    width: 46px;
-    height: 46px;
-    filter: drop-shadow(0 0 8px #ff0000cc);
-    z-index: 2;
+  width: 46px;
+  height: 46px;
+  filter: drop-shadow(0 0 8px #ff0000cc);
+  z-index: 2;
 }
 
 /* Halo pulsante perfecto */
 .imperial-marker::before {
-    content: "";
-    position: absolute;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: rgba(255, 0, 0, 0.45);
-    animation: imperialPulse 1.6s infinite ease-out;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.45);
+  animation: imperialPulse 1.6s infinite ease-out;
+  z-index: 1;
 }
 
 @keyframes imperialPulse {
-    0% {
-        transform: scale(1);
-        opacity: 0.6;
-    }
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
 
-    60% {
-        transform: scale(2.4);
-        opacity: 0.25;
-    }
+  60% {
+    transform: scale(2.4);
+    opacity: 0.25;
+  }
 
-    100% {
-        transform: scale(3.2);
-        opacity: 0;
-    }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
 }
 
 
 .imperial-map-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -50%;
-    /* Aparece bien fuera del mapa */
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(to right,
-            rgba(255, 50, 50, 0) 0%,
-            rgba(255, 50, 50, 0.15) 40%,
-            rgba(255, 0, 0, 0.35) 50%,
-            rgba(255, 50, 50, 0.15) 60%,
-            rgba(255, 50, 50, 0) 100%);
-    mix-blend-mode: screen;
-    pointer-events: none;
-    z-index: 9999;
-    animation: imperialSweep 5s infinite linear;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  /* Aparece bien fuera del mapa */
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(to right,
+      rgba(255, 50, 50, 0) 0%,
+      rgba(255, 50, 50, 0.15) 40%,
+      rgba(255, 0, 0, 0.35) 50%,
+      rgba(255, 50, 50, 0.15) 60%,
+      rgba(255, 50, 50, 0) 100%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 9999;
+  animation: imperialSweep 5s infinite linear;
 }
 
 @keyframes imperialSweep {
-    0% {
-        transform: translateX(-120%);
-        opacity: 0.5;
-    }
+  0% {
+    transform: translateX(-120%);
+    opacity: 0.5;
+  }
 
-    85% {
-        transform: translateX(320%);
-        opacity: 0.5;
-        /* constante, sin desaparecer */
-    }
+  85% {
+    transform: translateX(320%);
+    opacity: 0.5;
+    /* constante, sin desaparecer */
+  }
 
-    100% {
-        transform: translateX(400%);
-        opacity: 0;
-        /* ya salió completamente */
-    }
+  100% {
+    transform: translateX(400%);
+    opacity: 0;
+    /* ya salió completamente */
+  }
 }
 
 /* ============================= */
@@ -119,34 +137,34 @@
 /* ============================= */
 
 .starfield {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background:
-        radial-gradient(1px 1px at 20% 30%, #fff, transparent),
-        radial-gradient(1px 1px at 80% 40%, #fff, transparent),
-        radial-gradient(1px 1px at 60% 80%, #fff, transparent),
-        radial-gradient(1px 1px at 40% 60%, #fff, transparent),
-        radial-gradient(1px 1px at 70% 20%, #fff, transparent),
-        radial-gradient(2px 2px at 10% 90%, #fff, transparent),
-        radial-gradient(1px 1px at 90% 10%, #fff, transparent),
-        radial-gradient(1px 1px at 30% 70%, #fff, transparent),
-        #000;
-    background-repeat: repeat;
-    background-size: 300px 300px;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 80% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 60% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 20%, #fff, transparent),
+    radial-gradient(2px 2px at 10% 90%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 10%, #fff, transparent),
+    radial-gradient(1px 1px at 30% 70%, #fff, transparent),
+    #000;
+  background-repeat: repeat;
+  background-size: 300px 300px;
 }
 
 /* Capa de profundidad extra */
 .starfield::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(1px 1px at 25% 50%, #aaa, transparent),
-        radial-gradient(1px 1px at 75% 60%, #aaa, transparent),
-        radial-gradient(1px 1px at 50% 25%, #aaa, transparent);
-    background-size: 500px 500px;
-    opacity: 0.6;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1px 1px at 25% 50%, #aaa, transparent),
+    radial-gradient(1px 1px at 75% 60%, #aaa, transparent),
+    radial-gradient(1px 1px at 50% 25%, #aaa, transparent);
+  background-size: 500px 500px;
+  opacity: 0.6;
 }
 
 /* =========================
@@ -154,533 +172,78 @@
    ========================= */
 
 :root {
-    --color-accent: #dc2626;
-    --color-accent-soft: #f87171;
-    --color-border-accent: rgba(220, 38, 38, 0.5);
+  --color-accent: #dc2626;
+  --color-accent-soft: #f87171;
+  --color-border-accent: rgba(220, 38, 38, 0.5);
 
-    --color-text-primary: #e5e7eb;
-    --color-text-muted: #9ca3af;
+  --color-text-primary: #e5e7eb;
+  --color-text-muted: #9ca3af;
 
-    --color-bg: #000000;
+  --color-bg: #000000;
 }
 
 /* REBELIÓN (CLARO) */
 html[data-theme="rebelion"] {
-    --color-accent: #facc15;
-    --color-accent-soft: #fde047;
-    --color-border-accent: rgba(250, 204, 21, 0.5);
+  --color-accent: #facc15;
+  --color-accent-soft: #fde047;
+  --color-border-accent: rgba(250, 204, 21, 0.5);
 
-    --color-text-primary: #f8fafc;
-    --color-text-muted: #cbd5f5;
+  --color-text-primary: #f8fafc;
+  --color-text-muted: #cbd5f5;
 
-    --color-bg: #020617;
+  --color-bg: #020617;
 }
 
-/* ================================
-   FACTION SWITCH (Imperio/Rebelión)
-================================ */
 
-.faction-switch {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    user-select: none;
-}
+/* Botoncillo*/
 
-.faction-switch input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
+/* ===============================
+   SWITCH CLÁSICO (W3Schools)
+   =============================== */
 
-.faction-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    transition: color 0.3s ease;
-}
-
-.faction-label.empire {
-    color: var(--color-accent);
-}
-
-.faction-track {
+.switch {
   position: relative;
-  width: 56px;
-  height: 28px;
-  border-radius: 999px;
-  background: #222;               /* DEBUG */
-  border: 2px solid red;           /* DEBUG */
+  display: inline-block;
+  width: 60px;
+  height: 34px;
 }
 
-.faction-handle {
+/* Ocultar checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Track */
+.slider {
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: red;                 /* DEBUG */
-  transition: transform 0.35s ease;
-}
-
-/* Checked = Imperio */
-.faction-switch input:checked+.faction-track .faction-handle {
-    transform: translateX(28px);
-}
-
-/* ===============================
-   Toggle Imperio / Rebelión
-   =============================== */
-
-/* Estado Rebelión → mover el punto */
-html[data-theme="rebelion"] #theme-indicator {
-  transform: translateX(12px);
-}
-
-/* Estado Imperio → posición base */
-html[data-theme="imperio"] #theme-indicator {
-  transform: translateX(0);
-}
-
-/* ===============================
-   FACTION TOGGLE (CSS ONLY)
-   =============================== */
-
-.faction-toggle-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.faction-label {
-  font-size: 0.7rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.faction-label.rebel {
-  color: var(--color-rebel);
-}
-
-.faction-label.empire {
-  color: var(--color-empire);
-}
-
-/* Switch base */
-.faction-switch {
-  position: relative;
   cursor: pointer;
-}
-
-.faction-switch input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.faction-track {
-  width: 64px;
-  height: 28px;
-  background: rgba(0,0,0,0.7);
-  border-radius: 999px;
-  border: 1px solid var(--color-border-accent);
-  display: flex;
-  align-items: center;
-  padding: 2px;
-  position: relative;
-}
-
-.faction-handle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 10px var(--color-accent);
-  position: relative;
-  transition: transform 0.35s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Movimiento */
-.faction-switch input:checked + .faction-track .faction-handle {
-  transform: translateX(34px);
-}
-
-/* ===============================
-   LOGOS CSS (simplificados)
-   =============================== */
-
-/* Rebelión: estrella */
-.rebel-logo {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: transparent;
-}
-
-.rebel-logo::before,
-.rebel-logo::after {
-  content: "";
-  position: absolute;
-  background: var(--color-rebel);
-}
-
-.rebel-logo::before {
-  width: 10px;
-  height: 2px;
-  top: 4px;
-}
-
-.rebel-logo::after {
-  width: 2px;
-  height: 10px;
-  left: 4px;
-}
-
-/* Imperio: círculo + líneas */
-.empire-logo {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid var(--color-empire);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.faction-switch input:checked + .faction-track .empire-logo {
-  opacity: 1;
-}
-
-.faction-switch input:checked + .faction-track .rebel-logo {
-  opacity: 0;
-}
-
-/* ===============================
-   FACTION TOGGLE (IMPERIO / REBELIÓN)
-   =============================== */
-
-.faction-toggle-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.faction-label {
-  font-size: 0.65rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  user-select: none;
-}
-
-.faction-label.rebel {
-  color: var(--color-rebel);
-}
-
-.faction-label.empire {
-  color: var(--color-empire);
-}
-
-/* Switch base */
-.faction-switch {
-  position: relative;
-  cursor: pointer;
-}
-
-.faction-switch input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.faction-track {
-  width: 64px;
-  height: 28px;
-  background: rgba(0, 0, 0, 0.75);
-  border-radius: 999px;
-  border: 1px solid var(--color-border-accent);
-  padding: 2px;
-  display: flex;
-  align-items: center;
-}
-
-.faction-handle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 10px var(--color-accent);
-  position: relative;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Movimiento */
-.faction-switch input:checked + .faction-track .faction-handle {
-  transform: translateX(34px);
-  box-shadow: 0 0 10px var(--color-empire);
-}
-
-/* ===============================
-   LOGOS CSS (SIN SVG / SIN IMG)
-   =============================== */
-
-/* Rebelión: estrella */
-.rebel-logo {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-}
-
-.rebel-logo::before,
-.rebel-logo::after {
-  content: "";
-  position: absolute;
-  background: var(--color-rebel);
-}
-
-.rebel-logo::before {
-  width: 10px;
-  height: 2px;
-  top: 4px;
-  left: 0;
-}
-
-.rebel-logo::after {
-  width: 2px;
-  height: 10px;
-  top: 0;
-  left: 4px;
-}
-
-/* Imperio: círculo */
-.empire-logo {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid var(--color-empire);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-/* Alternancia de logos */
-.faction-switch input:checked + .faction-track .rebel-logo {
-  opacity: 0;
-}
-
-.faction-switch input:checked + .faction-track .empire-logo {
-  opacity: 1;
-}
-
-/* ===============================
-   HANDLE = LOGO (NO BOLITA)
-   =============================== */
-
-.faction-handle {
-  width: 26px;
-  height: 26px;
-  position: relative;
-  transition: transform 0.35s ease;
-}
-
-/* Movimiento */
-.faction-switch input:checked + .faction-track .faction-handle {
-  transform: translateX(34px);
-}
-
-/* ===============================
-   REBELIÓN (estrella simple)
-   =============================== */
-
-.f-rebel,
-.f-empire {
-  position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  background-color: #555;
+  transition: 0.4s;
+  border-radius: 34px;
 }
 
-.f-rebel {
-  opacity: 1;
-}
-
-.f-rebel span {
+/* Bola */
+.slider::before {
   position: absolute;
-  background: var(--color-rebel);
-}
-
-.f-r1 {
-  width: 14px;
-  height: 2px;
-}
-
-.f-r2 {
-  width: 2px;
-  height: 14px;
-}
-
-.f-r3 {
-  width: 10px;
-  height: 10px;
-  border: 2px solid var(--color-rebel);
-  border-radius: 50%;
-  opacity: 0.5;
-}
-
-/* ===============================
-   IMPERIO (círculo + radios)
-   =============================== */
-
-.f-empire {
-  opacity: 0;
-}
-
-.f-empire span {
-  position: absolute;
-  background: var(--color-empire);
-}
-
-.f-e1 {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid var(--color-empire);
-  background: transparent;
-}
-
-.f-e2 {
-  width: 2px;
-  height: 14px;
-}
-
-.f-e3 {
-  width: 14px;
-  height: 2px;
-}
-
-/* ===============================
-   TOGGLE DE LOGOS
-   =============================== */
-
-.faction-switch input:checked + .faction-track .f-rebel {
-  opacity: 0;
-  transform: scale(0.6);
-}
-
-.faction-switch input:checked + .faction-track .f-empire {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* ===============================
-   HANDLE = LOGO (NO BOLITA)
-   =============================== */
-
-.faction-handle {
-  width: 26px;
+  content: "";
   height: 26px;
-  position: relative;
-  transition: transform 0.35s ease;
-}
-
-/* Movimiento */
-.faction-switch input:checked + .faction-track .faction-handle {
-  transform: translateX(34px);
-}
-
-/* ===============================
-   REBELIÓN (estrella simple)
-   =============================== */
-
-.f-rebel,
-.f-empire {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.f-rebel {
-  opacity: 1;
-}
-
-.f-rebel span {
-  position: absolute;
-  background: var(--color-rebel);
-}
-
-.f-r1 {
-  width: 14px;
-  height: 2px;
-}
-
-.f-r2 {
-  width: 2px;
-  height: 14px;
-}
-
-.f-r3 {
-  width: 10px;
-  height: 10px;
-  border: 2px solid var(--color-rebel);
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--color-accent);
+  transition: 0.4s;
   border-radius: 50%;
-  opacity: 0.5;
 }
 
-/* ===============================
-   IMPERIO (círculo + radios)
-   =============================== */
-
-.f-empire {
-  opacity: 0;
+/* Checked = Imperio (derecha) */
+.switch input:checked+.slider::before {
+  transform: translateX(26px);
 }
 
-.f-empire span {
-  position: absolute;
-  background: var(--color-empire);
-}
-
-.f-e1 {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid var(--color-empire);
-  background: transparent;
-}
-
-.f-e2 {
-  width: 2px;
-  height: 14px;
-}
-
-.f-e3 {
-  width: 14px;
-  height: 2px;
-}
-
-/* ===============================
-   TOGGLE DE LOGOS
-   =============================== */
-
-.faction-switch input:checked + .faction-track .f-rebel {
-  opacity: 0;
-  transform: scale(0.6);
-}
-
-.faction-switch input:checked + .faction-track .f-empire {
-  opacity: 1;
-  transform: scale(1);
+/* Opcional: hover */
+.slider:hover {
+  background-color: #666;
 }
