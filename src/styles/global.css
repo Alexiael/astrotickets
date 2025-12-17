@@ -175,3 +175,512 @@ html[data-theme="rebelion"] {
 
     --color-bg: #020617;
 }
+
+/* ================================
+   FACTION SWITCH (Imperio/Rebelión)
+================================ */
+
+.faction-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.faction-switch input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.faction-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    transition: color 0.3s ease;
+}
+
+.faction-label.empire {
+    color: var(--color-accent);
+}
+
+.faction-track {
+  position: relative;
+  width: 56px;
+  height: 28px;
+  border-radius: 999px;
+  background: #222;               /* DEBUG */
+  border: 2px solid red;           /* DEBUG */
+}
+
+.faction-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: red;                 /* DEBUG */
+  transition: transform 0.35s ease;
+}
+
+/* Checked = Imperio */
+.faction-switch input:checked+.faction-track .faction-handle {
+    transform: translateX(28px);
+}
+
+/* ===============================
+   Toggle Imperio / Rebelión
+   =============================== */
+
+/* Estado Rebelión → mover el punto */
+html[data-theme="rebelion"] #theme-indicator {
+  transform: translateX(12px);
+}
+
+/* Estado Imperio → posición base */
+html[data-theme="imperio"] #theme-indicator {
+  transform: translateX(0);
+}
+
+/* ===============================
+   FACTION TOGGLE (CSS ONLY)
+   =============================== */
+
+.faction-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.faction-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.faction-label.rebel {
+  color: var(--color-rebel);
+}
+
+.faction-label.empire {
+  color: var(--color-empire);
+}
+
+/* Switch base */
+.faction-switch {
+  position: relative;
+  cursor: pointer;
+}
+
+.faction-switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.faction-track {
+  width: 64px;
+  height: 28px;
+  background: rgba(0,0,0,0.7);
+  border-radius: 999px;
+  border: 1px solid var(--color-border-accent);
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  position: relative;
+}
+
+.faction-handle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+  position: relative;
+  transition: transform 0.35s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Movimiento */
+.faction-switch input:checked + .faction-track .faction-handle {
+  transform: translateX(34px);
+}
+
+/* ===============================
+   LOGOS CSS (simplificados)
+   =============================== */
+
+/* Rebelión: estrella */
+.rebel-logo {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+.rebel-logo::before,
+.rebel-logo::after {
+  content: "";
+  position: absolute;
+  background: var(--color-rebel);
+}
+
+.rebel-logo::before {
+  width: 10px;
+  height: 2px;
+  top: 4px;
+}
+
+.rebel-logo::after {
+  width: 2px;
+  height: 10px;
+  left: 4px;
+}
+
+/* Imperio: círculo + líneas */
+.empire-logo {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--color-empire);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.faction-switch input:checked + .faction-track .empire-logo {
+  opacity: 1;
+}
+
+.faction-switch input:checked + .faction-track .rebel-logo {
+  opacity: 0;
+}
+
+/* ===============================
+   FACTION TOGGLE (IMPERIO / REBELIÓN)
+   =============================== */
+
+.faction-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.faction-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.faction-label.rebel {
+  color: var(--color-rebel);
+}
+
+.faction-label.empire {
+  color: var(--color-empire);
+}
+
+/* Switch base */
+.faction-switch {
+  position: relative;
+  cursor: pointer;
+}
+
+.faction-switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.faction-track {
+  width: 64px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 999px;
+  border: 1px solid var(--color-border-accent);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.faction-handle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Movimiento */
+.faction-switch input:checked + .faction-track .faction-handle {
+  transform: translateX(34px);
+  box-shadow: 0 0 10px var(--color-empire);
+}
+
+/* ===============================
+   LOGOS CSS (SIN SVG / SIN IMG)
+   =============================== */
+
+/* Rebelión: estrella */
+.rebel-logo {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.rebel-logo::before,
+.rebel-logo::after {
+  content: "";
+  position: absolute;
+  background: var(--color-rebel);
+}
+
+.rebel-logo::before {
+  width: 10px;
+  height: 2px;
+  top: 4px;
+  left: 0;
+}
+
+.rebel-logo::after {
+  width: 2px;
+  height: 10px;
+  top: 0;
+  left: 4px;
+}
+
+/* Imperio: círculo */
+.empire-logo {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--color-empire);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Alternancia de logos */
+.faction-switch input:checked + .faction-track .rebel-logo {
+  opacity: 0;
+}
+
+.faction-switch input:checked + .faction-track .empire-logo {
+  opacity: 1;
+}
+
+/* ===============================
+   HANDLE = LOGO (NO BOLITA)
+   =============================== */
+
+.faction-handle {
+  width: 26px;
+  height: 26px;
+  position: relative;
+  transition: transform 0.35s ease;
+}
+
+/* Movimiento */
+.faction-switch input:checked + .faction-track .faction-handle {
+  transform: translateX(34px);
+}
+
+/* ===============================
+   REBELIÓN (estrella simple)
+   =============================== */
+
+.f-rebel,
+.f-empire {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.f-rebel {
+  opacity: 1;
+}
+
+.f-rebel span {
+  position: absolute;
+  background: var(--color-rebel);
+}
+
+.f-r1 {
+  width: 14px;
+  height: 2px;
+}
+
+.f-r2 {
+  width: 2px;
+  height: 14px;
+}
+
+.f-r3 {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-rebel);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+/* ===============================
+   IMPERIO (círculo + radios)
+   =============================== */
+
+.f-empire {
+  opacity: 0;
+}
+
+.f-empire span {
+  position: absolute;
+  background: var(--color-empire);
+}
+
+.f-e1 {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--color-empire);
+  background: transparent;
+}
+
+.f-e2 {
+  width: 2px;
+  height: 14px;
+}
+
+.f-e3 {
+  width: 14px;
+  height: 2px;
+}
+
+/* ===============================
+   TOGGLE DE LOGOS
+   =============================== */
+
+.faction-switch input:checked + .faction-track .f-rebel {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.faction-switch input:checked + .faction-track .f-empire {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ===============================
+   HANDLE = LOGO (NO BOLITA)
+   =============================== */
+
+.faction-handle {
+  width: 26px;
+  height: 26px;
+  position: relative;
+  transition: transform 0.35s ease;
+}
+
+/* Movimiento */
+.faction-switch input:checked + .faction-track .faction-handle {
+  transform: translateX(34px);
+}
+
+/* ===============================
+   REBELIÓN (estrella simple)
+   =============================== */
+
+.f-rebel,
+.f-empire {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.f-rebel {
+  opacity: 1;
+}
+
+.f-rebel span {
+  position: absolute;
+  background: var(--color-rebel);
+}
+
+.f-r1 {
+  width: 14px;
+  height: 2px;
+}
+
+.f-r2 {
+  width: 2px;
+  height: 14px;
+}
+
+.f-r3 {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-rebel);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+/* ===============================
+   IMPERIO (círculo + radios)
+   =============================== */
+
+.f-empire {
+  opacity: 0;
+}
+
+.f-empire span {
+  position: absolute;
+  background: var(--color-empire);
+}
+
+.f-e1 {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--color-empire);
+  background: transparent;
+}
+
+.f-e2 {
+  width: 2px;
+  height: 14px;
+}
+
+.f-e3 {
+  width: 14px;
+  height: 2px;
+}
+
+/* ===============================
+   TOGGLE DE LOGOS
+   =============================== */
+
+.faction-switch input:checked + .faction-track .f-rebel {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.faction-switch input:checked + .faction-track .f-empire {
+  opacity: 1;
+  transform: scale(1);
+}

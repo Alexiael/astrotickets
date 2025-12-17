@@ -3,66 +3,105 @@ import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
 
 // -------------------------------------------------------
-// 1. Descargar *todas* las páginas de SWAPI (personajes)
+// TIPOS
 // -------------------------------------------------------
-async function fetchAllPeople() {
-  let url: string | null = "https://swapi.dev/api/people/?page=1";
-  const all: any[] = [];
+type Person = {
+  name: string;
+  gender: string;
+  birth_year: string;
+  homeworld: string;
+  films: string[];
+};
 
-  while (url) {
-    const res: any = await fetch(url);
-    const data: any = await res.json();
+// -------------------------------------------------------
+// CONSTANTES
+// -------------------------------------------------------
+const SWAPI_MIRROR = "https://swapi.py4e.com/api";
+const FALLBACK_IMAGE =
+  "https://via.placeholder.com/600x400?text=Star+Wars";
 
-    all.push(...data.results);
-    url = data.next;
+// -------------------------------------------------------
+// UTILIDAD: normalizar URLs al mirror
+// -------------------------------------------------------
+function toSwapiMirror(url: string): string {
+  return url.replace("https://swapi.dev/api", SWAPI_MIRROR);
+}
+
+// -------------------------------------------------------
+// 1. Descargar personajes desde SWAPI MIRROR
+// -------------------------------------------------------
+async function fetchAllPeople(): Promise<Person[]> {
+  let url: string | null = `${SWAPI_MIRROR}/people/`;
+  const all: Person[] = [];
+
+  try {
+    while (url) {
+      const res = await fetch(url);
+
+      if (!res.ok) {
+        console.error("SWAPI mirror error:", res.status);
+        break;
+      }
+
+      const data = (await res.json()) as {
+        results: Person[];
+        next: string | null;
+      };
+
+      all.push(...data.results);
+      url = data.next;
+    }
+  } catch (error) {
+    console.error("SWAPI fetch failed:", error);
   }
 
   return all;
 }
 
 // -------------------------------------------------------
-// 2. Obtener el nombre del planeta
+// 2. Obtener nombre del planeta (usando mirror)
 // -------------------------------------------------------
-async function getPlanetName(url: string) {
+async function getPlanetName(url: string): Promise<string> {
   try {
-    const res = await fetch(url);
-    const data = await res.json();
-    return data.name as string;
+    const res = await fetch(toSwapiMirror(url));
+    const data = (await res.json()) as { name: string };
+    return data.name;
   } catch {
     return "Desconocido";
   }
 }
 
 // -------------------------------------------------------
-// 3. Imágenes oficiales del Databank
+// 3. Imágenes oficiales
 // -------------------------------------------------------
 const characterImages: Record<string, string> = {
   "Luke Skywalker":
-    "https://lumiere-a.akamaihd.net/v1/images/luke-skywalker-main_7ffe21c7.jpeg?region=130%2C147%2C1417%2C796",
+    "https://lumiere-a.akamaihd.net/v1/images/luke-skywalker-main_7ffe21c7.jpeg",
   "Leia Organa":
-    "https://lumiere-a.akamaihd.net/v1/images/leia-organa-main_9af6ff81.jpeg?region=187%2C157%2C1400%2C786",
+    "https://lumiere-a.akamaihd.net/v1/images/leia-organa-main_9af6ff81.jpeg",
   "Darth Vader":
-    "https://lumiere-a.akamaihd.net/v1/images/darth-vader-main_4560aff7.jpeg?region=0%2C67%2C1280%2C720",
+    "https://lumiere-a.akamaihd.net/v1/images/darth-vader-main_4560aff7.jpeg",
   "C-3PO":
-    "https://lumiere-a.akamaihd.net/v1/images/c-3po-main_d6850e28.jpeg?region=176%2C0%2C951%2C536",
+    "https://lumiere-a.akamaihd.net/v1/images/c-3po-main_d6850e28.jpeg",
   "R2-D2":
-    "https://lumiere-a.akamaihd.net/v1/images/r2-d2-main_f315b094.jpeg?region=273%2C0%2C951%2C536",
+    "https://lumiere-a.akamaihd.net/v1/images/r2-d2-main_f315b094.jpeg",
   "Owen Lars":
-    "https://lumiere-a.akamaihd.net/v1/images/owen-lars-main_08c717c8.jpeg?region=0%2C34%2C1053%2C593",
+    "https://lumiere-a.akamaihd.net/v1/images/owen-lars-main_08c717c8.jpeg",
 };
 
+// -------------------------------------------------------
+// 4. Datos finales
 // -------------------------------------------------------
 const allPeople = await fetchAllPeople();
 const selectedPeople = allPeople.slice(0, 6);
 
-// -------------------------------------------------------
 const peopleWithPlanets = await Promise.all(
-  selectedPeople.map(async (p: any) => ({
+  selectedPeople.map(async (p) => ({
     ...p,
-    planet: await getPlanetName(p.homeworld),
-    image:
-      characterImages[p.name] ??
-      "https://via.placeholder.com/600x400?text=Star+Wars",
+    planet: p.homeworld
+      ? await getPlanetName(p.homeworld)
+      : "Desconocido",
+    image: characterImages[p.name] ?? FALLBACK_IMAGE,
   }))
 );
 ---
@@ -70,51 +109,50 @@ const peopleWithPlanets = await Promise.all(
 <Layout title="Comunidad | AstroTickets – Galactic Force Fest">
   <section class="max-w-6xl mx-auto px-4 py-16">
 
-    <h1 class="text-3xl md:text-4xl font-bold text-[color:var(--color-accent-soft)] mb-6">
+    <h1 class="text-3xl md:text-4xl font-bold mb-6 text-(--color-accent)">
       Comunidad Galáctica
     </h1>
 
-    <p class="text-[color:var(--color-text-muted)] mb-10 max-w-2xl">
-      Una muestra de algunos personajes icónicos de la saga Star Wars combinados con datos
-      obtenidos desde la API pública SWAPI y con imágenes oficiales del Databank.
+    <p class="mb-10 max-w-2xl text-(--color-text-muted)">
+      Personajes icónicos obtenidos desde la API pública SWAPI (mirror),
+      combinados con imágenes oficiales del Databank.
     </p>
 
     <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
       {peopleWithPlanets.map((person) => (
         <div
-          class="border border-[color:var(--color-border-accent)] p-6 rounded-lg
-                 bg-black/50 backdrop-blur shadow-lg"
+          class="border border-(--color-border-accent)
+                 p-6 rounded-lg bg-black/50 backdrop-blur shadow-lg"
         >
-
-          <!-- Imagen del personaje -->
           <img
             src={person.image}
             alt={person.name}
-            class="rounded-md w-full h-48 object-cover object-center mb-4
-                   border border-[color:var(--color-border-accent)]"
+            class="rounded-md w-full h-48 object-cover mb-4
+                   border border-(--color-border-accent)"
           />
 
-          <h3 class="text-[color:var(--color-accent)] text-xl font-semibold text-center mb-2">
+          <h3 class="text-xl font-semibold text-center mb-2 text-(--color-accent)">
             {person.name}
           </h3>
 
-          <p class="text-sm text-center text-[color:var(--color-text-primary)]">
-            <span class="text-[color:var(--color-text-muted)]">Género:</span> {person.gender}
+          <p class="text-sm text-center">
+            <span class="text-(--color-text-muted)">Género:</span> {person.gender}
           </p>
 
-          <p class="text-sm text-center text-[color:var(--color-text-primary)]">
-            <span class="text-[color:var(--color-text-muted)]">Nacimiento:</span> {person.birth_year}
+          <p class="text-sm text-center">
+            <span class="text-(--color-text-muted)">Nacimiento:</span> {person.birth_year}
           </p>
 
-          <p class="text-sm text-center text-[color:var(--color-text-primary)] mb-3">
-            <span class="text-[color:var(--color-text-muted)]">Planeta:</span> {person.planet}
+          <p class="text-sm text-center mb-3">
+            <span class="text-(--color-text-muted)">Planeta:</span> {person.planet}
           </p>
 
-          <p class="text-xs text-center text-[color:var(--color-text-muted)]">
-            Aparece en {person.films.length} película(s)
+          <p class="text-xs text-center text-(--color-text-muted)">
+            Aparece en {person.films?.length ?? 0} película(s)
           </p>
         </div>
       ))}
     </div>
+
   </section>
 </Layout>

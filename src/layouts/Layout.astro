@@ -12,7 +12,6 @@ import "../styles/global.css";
   </head>
 
   <body class="min-h-screen flex flex-col relative">
-
     <!-- Fondo estrellado global -->
     <div class="starfield"></div>
 
@@ -58,13 +57,39 @@ import "../styles/global.css";
                  md:static md:flex md:flex-row md:gap-6
                  md:w-auto md:p-0 md:bg-transparent md:border-none"
         >
-          <li><a href="/events" class="hover:text-(--color-accent-soft)">Entradas</a></li>
-          <li><a href="/merch" class="hover:text-(--color-accent-soft)">Tienda</a></li>
-          <li><a href="/dashboard" class="hover:text-(--color-accent-soft)">Dashboard</a></li>
-          <li><a href="/community" class="hover:text-(--color-accent-soft)">Comunidad</a></li>
-          <li><a href="/location" class="hover:text-(--color-accent-soft)">Ubicación</a></li>
-          <li><a href="/about" class="hover:text-(--color-accent-soft)">Sobre nosotros</a></li>
-          <li><a href="/contact" class="hover:text-(--color-accent-soft)">Contacto</a></li>
+          <li>
+            <a href="/events" class="hover:text-(--color-accent-soft)"
+              >Entradas</a
+            >
+          </li>
+          <li>
+            <a href="/merch" class="hover:text-(--color-accent-soft)">Tienda</a>
+          </li>
+          <li>
+            <a href="/dashboard" class="hover:text-(--color-accent-soft)"
+              >Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="/community" class="hover:text-(--color-accent-soft)"
+              >Comunidad</a
+            >
+          </li>
+          <li>
+            <a href="/location" class="hover:text-(--color-accent-soft)"
+              >Ubicación</a
+            >
+          </li>
+          <li>
+            <a href="/about" class="hover:text-(--color-accent-soft)"
+              >Sobre nosotros</a
+            >
+          </li>
+          <li>
+            <a href="/contact" class="hover:text-(--color-accent-soft)"
+              >Contacto</a
+            >
+          </li>
         </ul>
 
         <!-- BOTÓN MÓVIL -->
@@ -82,6 +107,37 @@ import "../styles/global.css";
         >
           Menú
         </button>
+        <div class="ml-3 faction-toggle-wrapper">
+          <span class="faction-label rebel"> Rebelión </span>
+
+          <label class="faction-switch">
+            <input
+              id="theme-toggle"
+              type="checkbox"
+              aria-label="Cambiar facción"
+            />
+
+            <span class="faction-track">
+              <span class="faction-handle">
+                <!-- Rebelión -->
+                <span class="f-rebel">
+                  <span class="f-r1"></span>
+                  <span class="f-r2"></span>
+                  <span class="f-r3"></span>
+                </span>
+
+                <!-- Imperio -->
+                <span class="f-empire">
+                  <span class="f-e1"></span>
+                  <span class="f-e2"></span>
+                  <span class="f-e3"></span>
+                </span>
+              </span>
+            </span>
+          </label>
+
+          <span class="faction-label empire"> Imperio </span>
+        </div>
       </nav>
     </header>
 
@@ -122,6 +178,22 @@ import "../styles/global.css";
         });
       }
     </script>
+    <script is:inline>
+      const checkbox = document.getElementById("theme-toggle");
+      const html = document.documentElement;
 
+      const savedTheme = localStorage.getItem("theme") || "imperio";
+      html.setAttribute("data-theme", savedTheme);
+
+      if (checkbox) {
+        checkbox.checked = savedTheme === "imperio";
+
+        checkbox.addEventListener("change", () => {
+          const next = checkbox.checked ? "imperio" : "rebelion";
+          html.setAttribute("data-theme", next);
+          localStorage.setItem("theme", next);
+        });
+      }
+    </script>
   </body>
 </html>
