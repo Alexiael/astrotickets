@@ -11,7 +11,8 @@ import "../styles/global.css";
     <title>{title}</title>
   </head>
 
-  <body class="min-h-screen flex flex-col relative">
+  <body class={`min-h-screen flex flex-col relative ${Astro.url.pathname === "/" ? "no-scroll" : ""}`}>
+
     <!-- Fondo estrellado -->
     <div class="starfield"></div>
 
@@ -137,9 +138,10 @@ import "../styles/global.css";
 
     <!-- FOOTER -->
     <footer
-      class="relative z-10 mt-8
-             border-t border-(--color-border-accent)
-             bg-black/80"
+      class={`relative z-10
+          border-t border-(--color-border-accent)
+          bg-black/80
+          ${Astro.url.pathname === "/" ? "mt-2" : "mt-8"}`}
     >
       <div
         class="max-w-6xl mx-auto px-4 py-6 text-xs

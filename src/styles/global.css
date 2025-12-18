@@ -247,3 +247,12 @@ html[data-theme="rebelion"] {
 .slider:hover {
   background-color: #666;
 }
+
+/* ===============================
+   HOME SIN SCROLL
+   =============================== */
+
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
